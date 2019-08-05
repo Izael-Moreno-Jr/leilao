@@ -12,7 +12,6 @@ public class Leilao {
 		this.lances = new ArrayList<Lance>();
 	}
 
-
 	public List<Lance> getLances() {
 		return lances;
 	}
