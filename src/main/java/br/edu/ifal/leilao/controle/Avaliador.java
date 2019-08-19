@@ -26,9 +26,10 @@ public class Avaliador {
 	}
 	
 	public void setTop3MaioresLances(Leilao leilao) {
-		top3MaioresLances = new ArrayList<Lance>(leilao.getLances());
+		top3MaioresLances = new ArrayList<Lance>(leilao.getLances());		
+		
 		Collections.sort(top3MaioresLances, new Comparator<Lance>() {
-
+			
 			public int compare(Lance o1, Lance o2) {
 				if (o1.getValor() < o2.getValor()) return 1;
 				if (o1.getValor() > o2.getValor()) return -1;
@@ -36,7 +37,8 @@ public class Avaliador {
 			}
 		});
 		
-		top3MaioresLances = top3MaioresLances.subList(0, 3);
+		if(top3MaioresLances.size() > 3) 
+			top3MaioresLances = top3MaioresLances.subList(0, 3);
 		
 	}
 	
