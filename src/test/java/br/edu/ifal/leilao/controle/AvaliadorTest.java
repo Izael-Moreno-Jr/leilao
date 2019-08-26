@@ -6,8 +6,11 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import br.edu.ifal.leilao.construtor.CriadorDeLeilao;
+import br.edu.ifal.leilao.construtor.CriadorDeUsuario;
 import br.edu.ifal.leilao.modelo.Lance;
 import br.edu.ifal.leilao.modelo.Leilao;
+import br.edu.ifal.leilao.modelo.Produto;
 import br.edu.ifal.leilao.modelo.Usuario;
 
 public class AvaliadorTest {
@@ -20,27 +23,30 @@ public class AvaliadorTest {
 	
 	private Avaliador avaliador;
 	
+	private CriadorDeLeilao criadorDeLeilao;
+	
+	private CriadorDeUsuario criadorDeUsuario;
+	
 	@Before
 	public void inicializacao() {
-		usuario1 = new Usuario("Ana");
-		usuario2 = new Usuario("Zé");
-		usuario3 = new Usuario("Maria");
-		usuario4 = new Usuario("João");
-		
-		leilao = new Leilao();
+		criadorDeUsuario = new CriadorDeUsuario();
+		usuario1 = criadorDeUsuario.com("Ana", "ana@hotmail.com").constroi();
+		usuario2 = criadorDeUsuario.com("Zé", "zezinho@gmail.com").constroi();
+		usuario3 = criadorDeUsuario.com("Maria", "maria2018@gmail.com").constroi();
+		usuario4 = criadorDeUsuario.com("João","joao@hotmail.com").constroi();
 		
 		avaliador = new Avaliador();
+		
+		criadorDeLeilao = new CriadorDeLeilao();
 	}
 	
 	@Test
-	public void avaliadprDeveFuncionarComLancesDeFormaAleatoria(){
-		
-		
-		
-		leilao.propoe(new Lance(usuario1, 300));
-		leilao.propoe(new Lance(usuario2, 400));
-		leilao.propoe(new Lance(usuario3, 250));
-		
+	public void avaliadorDeveFuncionarComLancesDeFormaAleatoria(){
+		leilao = criadorDeLeilao.para(new Produto("TV"))
+				.lance(usuario1, 300)
+				.lance(usuario2, 400)
+				.lance(usuario3, 250)
+				.constroi();
 		
 		avaliador.avalia(leilao);
 		double maiorLanceObtido = avaliador.getMaiorLance();
@@ -54,11 +60,12 @@ public class AvaliadorTest {
 	}
 	
 	@Test
-	public void avaliadprDeveFuncionarComLancesDeFormaCrescente() {
-		leilao.propoe(new Lance(usuario1, 250));
-		leilao.propoe(new Lance(usuario2, 300));
-		leilao.propoe(new Lance(usuario3, 400));
-		
+	public void avaliadorDeveFuncionarComLancesDeFormaCrescente() {
+		leilao = criadorDeLeilao.para(new Produto("TV"))
+				.lance(usuario1, 250)
+				.lance(usuario2, 300)
+				.lance(usuario3, 400)
+				.constroi();
 		
 		avaliador.avalia(leilao);
 		double menorLanceObitido = avaliador.getMenorLance();
@@ -73,12 +80,12 @@ public class AvaliadorTest {
 		
 	}
 	@Test
-	public void avaliadprDeveFuncionarComLancesDeFormaDecrescente() {
-		
-		leilao.propoe(new Lance(usuario1, 400));
-		leilao.propoe(new Lance(usuario2, 300));
-		leilao.propoe(new Lance(usuario3, 250));
-		
+	public void avaliadorDeveFuncionarComLancesDeFormaDecrescente() {
+		leilao = criadorDeLeilao.para(new Produto("TV"))
+				.lance(usuario1, 400)
+				.lance(usuario2, 300)
+				.lance(usuario3, 250)
+				.constroi();
 		
 		avaliador.avalia(leilao);
 		
@@ -95,9 +102,11 @@ public class AvaliadorTest {
 	
 	@Test
 	public void top3LancesdeveFuncionarComLancesAleatorios() {
-		leilao.propoe(new Lance(usuario1, 300));
-		leilao.propoe(new Lance(usuario2, 400));
-		leilao.propoe(new Lance(usuario3, 250));
+		leilao = criadorDeLeilao.para(new Produto("TV"))
+				.lance(usuario1, 300)
+				.lance(usuario2, 400)
+				.lance(usuario3, 250)
+				.constroi();
 		
 		avaliador.setTop3MaioresLances(leilao);
 		
@@ -121,9 +130,11 @@ public class AvaliadorTest {
 	
 	@Test
 	public void top3LancesdeveFuncionarComLancesCrescentes() {
-		leilao.propoe(new Lance(usuario1, 250));
-		leilao.propoe(new Lance(usuario2, 300));
-		leilao.propoe(new Lance(usuario3, 400));
+		leilao = criadorDeLeilao.para(new Produto("TV"))
+				.lance(usuario1, 250)
+				.lance(usuario2, 300)
+				.lance(usuario3, 400)
+				.constroi();
 		
 		avaliador.setTop3MaioresLances(leilao);
 		
@@ -146,10 +157,11 @@ public class AvaliadorTest {
 	}
 	@Test
 	public void top3LancesdeveFuncionarComLancesDecrescentes() {
-		leilao.propoe(new Lance(usuario1, 400));
-		leilao.propoe(new Lance(usuario2, 300));
-		leilao.propoe(new Lance(usuario3, 250));
-				
+		leilao = criadorDeLeilao.para(new Produto("TV"))
+				.lance(usuario1, 400)
+				.lance(usuario2, 300)
+				.lance(usuario3, 250)
+				.constroi();	
 		avaliador.setTop3MaioresLances(leilao);
 		
 		List<Lance> top3 = avaliador.getTop3MaioresLances();
@@ -170,10 +182,12 @@ public class AvaliadorTest {
 		assertEquals(tamanhoTop3esperado, tamanhoTop3Obtido);
 	}
 	@Test
-	public void top3LancesdeveFuncionarComLancesguais() {
-		leilao.propoe(new Lance(usuario2, 250));
-		leilao.propoe(new Lance(usuario1, 250));
-		leilao.propoe(new Lance(usuario3, 250));		
+	public void top3LancesdeveFuncionarComLancesiguais() {		
+		leilao = criadorDeLeilao.para(new Produto("TV"))
+				.lance(usuario1, 250)
+				.lance(usuario2, 250)
+				.lance(usuario3, 250)
+				.constroi();
 		
 		avaliador.setTop3MaioresLances(leilao);
 		
@@ -196,7 +210,9 @@ public class AvaliadorTest {
 	}
 	@Test
 	public void top3LancesdeveFuncionarCom1Lance() {
-		leilao.propoe(new Lance(usuario1, 250));
+		leilao = criadorDeLeilao.para(new Produto("TV"))
+				.lance(usuario1, 250)
+				.constroi();
 				
 		avaliador.setTop3MaioresLances(leilao);
 		
@@ -213,9 +229,11 @@ public class AvaliadorTest {
 	}
 	@Test
 	public void top3LancesdeveFuncionarCom2Lances() {
-		leilao.propoe(new Lance(usuario1, 250));
-		leilao.propoe(new Lance(usuario2, 300));
-				
+		leilao = criadorDeLeilao.para(new Produto("TV"))
+				.lance(usuario1, 250)
+				.lance(usuario2, 300)
+				.constroi();
+		
 		avaliador.setTop3MaioresLances(leilao);
 		
 		List<Lance> top3 = avaliador.getTop3MaioresLances();
@@ -234,6 +252,9 @@ public class AvaliadorTest {
 	}
 	@Test
 	public void top3LancesdeveFuncionarSemLances() {
+		leilao = criadorDeLeilao.para(new Produto("TV"))
+				.constroi();
+		
 		avaliador.setTop3MaioresLances(leilao);
 		
 		List<Lance> top3 = avaliador.getTop3MaioresLances();
@@ -248,10 +269,12 @@ public class AvaliadorTest {
 	
 	@Test
 	public void top3LancesdeveFuncionarCom4LancesAleatorios() {
-		leilao.propoe(new Lance(usuario1, 300));
-		leilao.propoe(new Lance(usuario2, 400));
-		leilao.propoe(new Lance(usuario3, 250));
-		leilao.propoe(new Lance(usuario4, 500));
+		leilao = criadorDeLeilao.para(new Produto("TV"))
+				.lance(usuario1, 300)
+				.lance(usuario2, 400)
+				.lance(usuario3, 250)
+				.lance(usuario4, 500)
+				.constroi();
 		
 		avaliador.setTop3MaioresLances(leilao);
 		
@@ -274,28 +297,3 @@ public class AvaliadorTest {
 		assertEquals(tamanhoTop3esperado, tamanhoTop3Obtido);
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

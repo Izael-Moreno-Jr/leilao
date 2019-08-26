@@ -6,6 +6,14 @@ import java.util.List;
 public class Leilao {
 	
 	private ArrayList<Lance> lances;
+	private Produto produto;
+	
+	
+	public Leilao(Produto produto) {
+		super();
+		this.produto = produto;
+		this.lances = new ArrayList<Lance>();
+	}
 
 	public Leilao() {
 		super();
