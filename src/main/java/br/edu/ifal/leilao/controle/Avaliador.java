@@ -8,6 +8,7 @@ import java.util.List;
 
 import br.edu.ifal.leilao.modelo.Lance;
 import br.edu.ifal.leilao.modelo.Leilao;
+import br.edu.ifal.leilao.modelo.Usuario;
 
 public class Avaliador {
 	private double maiorDeTodos = Double.NEGATIVE_INFINITY;
@@ -52,6 +53,21 @@ public class Avaliador {
 	public List<Lance> getTop3MaioresLances() {
 		return top3MaioresLances;
 	}
-	
-	
+
+	public boolean validarLeilao(Leilao leilao) {
+		for (int i = 0; i < leilao.getLances().size(); i++) {
+			Usuario usuario = leilao.getLances().get(i).getUsuario();
+			
+			int qntLances = 0;
+			for (Lance lance : leilao.getLances()) {
+				if (lance.getUsuario().equals(usuario)) {
+					qntLances++;
+				}
+			}
+			if(qntLances > 5) return false;
+			
+			qntLances = 0;
+		}
+		return true;
+	}
 }
