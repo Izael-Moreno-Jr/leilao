@@ -9,6 +9,14 @@ public class Leilao {
 	private Produto produto;
 	
 	
+	public Produto getProduto() {
+		return produto;
+	}
+
+	public void setProduto(Produto produto) {
+		this.produto = produto;
+	}
+
 	public Leilao(Produto produto) {
 		super();
 		this.produto = produto;

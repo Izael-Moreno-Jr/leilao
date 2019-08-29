@@ -70,4 +70,31 @@ public class Avaliador {
 		}
 		return true;
 	}
+
+	public boolean aceitarLance(Leilao leilao, Lance lance) {
+		
+		if(leilao.getLances().isEmpty()) {
+			return true;
+		}
+		
+		int qntLances = leilao.getLances().size();
+		
+		Lance ultimoLance = leilao.getLances().get(qntLances-1);
+		if(ultimoLance.getUsuario().equals(lance.getUsuario()) ||
+				ultimoLance.getValor() >= lance.getValor()) {
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+
+	public boolean aceitarPrimeiroLance(Leilao leilao, Lance lance) {
+		double valorInicial = leilao.getProduto().getValorInicial();
+		
+		if(lance.getValor() >= valorInicial ) {
+			return true;
+		}
+		return false;
+	}
 }

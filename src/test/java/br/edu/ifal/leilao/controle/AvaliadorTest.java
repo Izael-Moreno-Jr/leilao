@@ -30,6 +30,7 @@ public class AvaliadorTest {
 	@Before
 	public void inicializacao() {
 		criadorDeUsuario = new CriadorDeUsuario();
+		
 		usuario1 = criadorDeUsuario.com("Ana", "ana@hotmail.com").constroi();
 		usuario2 = criadorDeUsuario.com("Zé", "zezinho@gmail.com").constroi();
 		usuario3 = criadorDeUsuario.com("Maria", "maria2018@gmail.com").constroi();
